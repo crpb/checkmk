@@ -983,7 +983,11 @@ section_zpool() {
     # check zpool status
     if inpath zpool; then
         echo "<<<zpool_status>>>"
-        zpool status -x
+        if [ "$(zpool status -x)" == "all pools are healthy" ]; then
+                zpool status -vt
+        else
+                zpool status -x
+        fi
     fi
 }
 
