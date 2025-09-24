@@ -707,7 +707,11 @@ run_purely_synchronous_sections() {
     # check zpool status
     if kldstat -m zfs -q && inpath zpool; then
         echo "<<<zpool_status>>>"
-        zpool status -x | grep -v "errors: No known data errors"
+        if [ "$(zpool status -x)" == "all pools are healthy" ]; then
+                zpool status -vt
+        else
+                zpool status -x
+        fi
     fi
 
     # Statgrab
