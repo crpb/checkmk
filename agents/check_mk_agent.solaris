@@ -694,7 +694,7 @@ section_cpu() {
 section_zpool() {
     # zpool status
     if [ -x /sbin/zpool ]; then
-        _run_cached_internal "zpool_status" 120 120 360 240 "echo '<<<zpool_status>>>'; /sbin/zpool status -x"
+        _run_cached_internal "zpool_status" 120 120 360 240 "echo '<<<zpool_status>>>'; if [ \"$(/sbin/zpool status -x)\" == \"all pools are healthy\" ]; then /sbin/zpool status -vt; else /sbin/zpool status -x; fi"
 
         ${MK_RUN_SYNC_PARTS} || return
 
